@@ -1,16 +1,23 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-const generateMarkdown = require("./util/generateMarkdown");
 
-const init = () => {
-  inquirer
-    .prompt([
+const promptUser = () => {
+  return inquirer.prompt([
         {
             type: 'input',
             name: 'title',
             message: 'Please enter your title',
         },
+        {
+            type: 'list',
+            name: 'license',
+            message: 'What kind of license should your project have?',
+            choices: ['MIT', 'GNU'],
+            default: ["MIT"],
+            value: "[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)"
+        },
+        
         {
             type: 'input',
             name: 'description',
@@ -28,19 +35,27 @@ const init = () => {
         },
         {
             type: 'input',
-            name: 'tusage',
+            name: 'usage',
             message: 'Provide instructions and examples for use.',
-        },
-        {
-            type: 'input',
-            name: 'badges',
-            
         },
         {
             type: 'input',
             name: 'features',
             message: 'If your project has a lot of features, list them here',
         },
-      
-    ])
-}
+    ]);
+};
+
+const generateMarkdown = ({title, description, content, installation, usage, badges, features}) =>
+`
+
+`;
+
+const init = () => {
+    promptUser()
+      .then((answers) => fs.writeFileSync('readme.md', generateMarkdown(answers)))
+      .then(() => console.log('Successfully wrote to readme.md'))
+      .catch((err) => console.error(err));
+  };
+
+init();
