@@ -1,4 +1,4 @@
-const generateMarkdown = ({title, description, content, installation, usage, badges, features,test}) =>
+const generateMarkdown = ({title, description, content, installation, usage, badges, features}) =>
 `
 
 `;
